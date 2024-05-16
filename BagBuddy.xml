@@ -32,6 +32,16 @@ http://wowprogramming.com/FrameXML/UI.xsd">
     </Layer>
   </Layers>
   <!--buttons states textures-->
+  
+   <Scripts>
+  <OnEnter function="BagBuddy_Button_OnEnter" />
+   <!-- print("Mouse has entered", self:GetName())
+  </OnEnter-->
+  <OnLeave function="BagBuddy_Button_OnLeave" />
+    <!-- print("Mouse has left", self:GetName())
+  </OnLeave--> 
+  </Scripts>
+
   <NormalTexture name="$parentNormalTexture" file="Interface\Buttons\UI-Quickslot2">
     <Size>
       <AbsDimension x="64" y="64"/>
