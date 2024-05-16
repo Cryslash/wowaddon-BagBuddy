@@ -23,6 +23,27 @@ function  BagBuddy_Onload(self)
         end
     end
 
+    --Create the filter buttons
+    self.filters = {}
+    for idx = 0, 5 do
+        local button = CreateFrame("CheckButton", "BagBuddy_Filter"..idx, self, "BagBuddyFilterTemplate")
+        SetItemButtonTexture(button,"Interface\\ICONS\\INV_Misc_Gem_Pearl_03")
+        self.filters[idx] = button
+        if idx == 0 then
+            button:SetPoint("BOTTOMLEFT", 40, 200)
+        else
+            button:SetPoint("TOPLEFT", self.filters[idx-1], "TOPRIGHT", 12, 0)
+        end
+
+        local colortable = ITEM_QUALITY_COLORS[idx]
+        button.icon:SetVertexColor(colortable["r"], colortable["g"], colortable["b"])
+        button:SetChecked(false)
+        button.quality = idx
+        button.glow:Hide()
+    end
+
+    self.filters[-1] = self.filters[0]
+
     -- Assinalar scripts ao xml
     -- for idx, button in ipairs(self.items) do
     --     button:SetScript("OnEnter", BagBuddy_Button_OnEnter)
@@ -43,24 +64,28 @@ end
 
 function BagBuddy_Update()
     local items = {}
-
     for bag = 0, NUM_BAG_SLOTS do
         for slot = 0, C_Container.GetContainerNumSlots(bag) do
             --local texture, count, locked, quality, readable, lootable, link = C_Container.GetContainerItemInfo(bag,slot)
             local table = C_Container.GetContainerItemInfo(bag,slot)
-            if table then                
-              local itemNum = tonumber(table["hyperlink"]:match("|Hitem:(%d+):"))
-              if not items[itemNum] then
-                 items[itemNum] = {
-                   texture = table["iconFileID"],
-                   count = table["stackCount"],
-                   quality = table["quality"],
-                   name = C_Item.GetItemInfo(table["hyperlink"]),
-                   link = table["link"],
-                 }          
-              else
-                -- items[itemNum].count = items[itemNum].count + table["count"]
-              end
+            if table then
+                local shown = true
+                if BagBuddy.qualityFilter then
+                   shown = shown and BagBuddy.filters[table["quality"]]:GetChecked()
+                end
+                if shown then
+                   local itemNum = tonumber(table["hyperlink"]:match("|Hitem:(%d+):"))
+                   if not items[itemNum] then
+                      items[itemNum] = {
+                      texture = table["iconFileID"],
+                      count = table["stackCount"],
+                      quality = table["quality"],
+                      name = C_Item.GetItemInfo(table["hyperlink"]),
+                      link = table["hyperlink"],}          
+                    else
+                      items[itemNum].count = items[itemNum].count + table["stackCount"]
+                    end
+                end
             end
         end
     end
@@ -112,4 +137,25 @@ end
 
 function BagBuddy_Button_OnLeave(self, motion)
     GameTooltip:Hide()
+end
+
+function BagBuddy_Filter_OnEnter(self, motion)
+    GameTooltip:SetOwner(self, "ANCHOR_TOPRIGHT")
+    GameTooltip:SetText(_G["ITEM_QUALITY" .. self.quality .. "_DESC"])
+    GameTooltip:Show()
+end
+
+function BagBuddy_Filter_OnLeave(self, motion)
+    GameTooltip:Hide()
+end
+
+function BagBuddy_Filter_OnClick(self, button)
+   BagBuddy.qualityFilter = false
+   for idx= 0, 5 do
+    local button = BagBuddy.filters[idx]
+    if button:GetChecked() then
+        BagBuddy.qualityFilter = true
+    end
+    BagBuddy_Update()
+   end
 end

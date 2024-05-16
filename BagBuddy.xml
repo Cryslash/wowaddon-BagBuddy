@@ -33,7 +33,7 @@ http://wowprogramming.com/FrameXML/UI.xsd">
   </Layers>
   <!--buttons states textures-->
   
-   <Scripts>
+  <Scripts>
   <OnEnter function="BagBuddy_Button_OnEnter" />
    <!-- print("Mouse has entered", self:GetName())
   </OnEnter-->
@@ -56,9 +56,16 @@ http://wowprogramming.com/FrameXML/UI.xsd">
   </NormalTexture>
   <PushedTexture file="Interface\Buttons\UI-Quickslot-Depress" />
   <HighlightTexture file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
-
 </Button>
 
+<CheckButton name="BagBuddyFilterTemplate" inherits="BagBuddyItemTemplate" virtual="true">
+  <Scripts>
+    <OnEnter function="BagBuddy_Filter_OnEnter"/>
+    <OnLeave function="BagBuddy_Filter_OnLeave"/>
+    <OnClick function="BagBuddy_Filter_OnClick"/>
+  </Scripts>
+  <CheckedTexture file="Interface\Buttons\CheckButtonHilight" alphaMode="ADD"/>
+</CheckButton>  
 
 <Frame name="BagBuddy" parent="UIParent">
   <Size x="384" y="512"/>
@@ -110,11 +117,50 @@ http://wowprogramming.com/FrameXML/UI.xsd">
       </Texture>
     </Layer>
   </Layers>
+  <Frames>
+    <Button name="$parent_Close" parentKey="close" inherits="UIPanelCloseButton">
+      <Anchors>
+        <Anchor point="TOPRIGHT">
+          <Offset x="-34" y="-12"/>
+        </Anchor>
+      </Anchors>
+    </Button>
+  </Frames>
   <Scripts>
     <OnLoad function="BagBuddy_Onload"/>
   </Scripts>
 </Frame>
 </Ui>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- Criando um Frame com cor solida  
 <Frame name="RedSquareTest" parent="UIParent">

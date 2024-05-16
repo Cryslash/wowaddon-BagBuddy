@@ -69,6 +69,8 @@
         "GRAY_FONT_COLOR",
         "CALENDAR_STATUS_TENTATIVE",
         "BagBuddy",
-        "ITEM_QUALITY_COLORS"
+        "ITEM_QUALITY_COLORS",
+        "SetItemButtonTexture",
+        "show"
     ]
 }
