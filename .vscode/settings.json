@@ -71,6 +71,18 @@
         "BagBuddy",
         "ITEM_QUALITY_COLORS",
         "SetItemButtonTexture",
-        "show"
+        "show",
+        "UIPanelWindows",
+        "SlashCmdList",
+        "ObjectiveTracker_Update",
+        "AutoQuestPopupTracker_RemovePopUp",
+        "AlertFrame",
+        "TextureKitConstants",
+        "SPLASH_BASE_HEADER",
+        "SPLASH_NEW_HEADER_SEASON",
+        "QuestFrame",
+        "HIGHLIGHT_FONT_COLOR",
+        "DARKYELLOW_FONT_COLOR",
+        "Kiosk"
     ]
 }
